@@ -1,0 +1,20 @@
+<?php
+$mysql_dbh = mysqli_connect('10.197.80.242','carnil','Espeso5602','qainsp_report');
+$firebird_dbh = ibase_connect('10.192.30.154:QAINSP','QADBUSER','qadbuser9');
+
+
+
+
+
+$sql = 'select distinct f.rdb$relation_name
+        from rdb$relation_fields f 
+        join rdb$relations r on f.rdb$relation_name = r.rdb$relation_name
+        and r.rdb$view_blr is null 
+        and (r.rdb$system_flag is null or r.rdb$system_flag = 0) and f.rdb$relation_name like "QA%" and f.rdb$field_name = "TIMESTAMP_ENTRY"
+        order by 1, f.rdb$field_position';
+$result = ibase_query($firebird_dbh,$sql);
+while($rowtable = ibase_fetch_row($result)){
+    
+    
+    $prodsql = "SELECT * FROM $rowtable[0]";
+}
