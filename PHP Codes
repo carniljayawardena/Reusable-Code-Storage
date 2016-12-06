@@ -1,0 +1,85 @@
+/************************************* GET TABLES AND FIELDS FIREBIRD **************************************************************/
+<?php
+$mysql_dbh = mysqli_connect('10.197.80.242','carnil','Espeso5602','qainsp_report');
+$firebird_dbh = ibase_connect('10.192.30.154:QAINSP','QADBUSER','qadbuser9');
+
+$sql = 'select distinct f.rdb$relation_name
+        from rdb$relation_fields f 
+        join rdb$relations r on f.rdb$relation_name = r.rdb$relation_name
+        and r.rdb$view_blr is null 
+        and (r.rdb$system_flag is null or r.rdb$system_flag = 0) and f.rdb$relation_name like "QA%" and f.rdb$field_name = "TIMESTAMP_ENTRY"
+        order by 1, f.rdb$field_position';
+$result = ibase_query($firebird_dbh,$sql);
+while($rowtable = ibase_fetch_row($result)){
+    
+    
+    $prodsql = "SELECT * FROM $rowtable[0]";
+}
+/************************************* BIND PARAM WITH ON DUPLICATE KEY **************************************************************/
+if($stmt = $mysqli -> prepare("
+    INSERT INTO user_info (city, state, website, public_contact, 
+        user, zipcode, pic, emailme)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+    ON DUPLICATE KEY UPDATE
+        city = VALUES(city),
+        state = VALUES(state),
+        website = VALUES(website),
+        public_contact = VALUES(public_contact),
+        user = VALUES(user),
+        zipcode = VALUES(zipcode),
+        pic = VALUES(pic),
+        emailme = VALUES(emailme)") {
+    $stmt -> bind_param("sssssssi",$city, $state, $website, $public_contact, 
+        $user, $zipcode, $pic, $emailme);
+    $stmt -> execute();
+    $stmt -> close();
+}
+/************************************* DISPLAY ALL ERRORS **************************************************************/
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+/************************************* ALERT BOX **************************************************************/
+                echo '<script type="text/javascript">';
+                echo 'alert("Username or Password did not match");';
+                echo 'window.location = "dmr_home.php";';
+                echo '</script>';
+/************************************* ADODB CONNECTION **************************************************************/
+<?php
+
+$conn = new COM("ADODB.Connection") or die("Cannot start ADO");
+$conn->Open("Provider=SQLOLEDB; Data Source=localhost;
+Initial Catalog=database; User ID=user; Password=password");
+
+$rs = $conn->Execute("SELECT * FROM sometable");    // Recordset
+
+$num_columns = $rs->Fields->Count();
+echo $num_columns . "\n";
+
+for ($i=0; $i < $num_columns; $i++) {
+    $fld[$i] = $rs->Fields($i);
+}
+
+$rowcount = 0;
+while (!$rs->EOF) {
+    for ($i=0; $i < $num_columns; $i++) {
+        echo $fld[$i]->value . "\t";
+    }
+    echo "\n";
+    $rowcount++;            // increments rowcount
+    $rs->MoveNext();
+}
+
+$rs->Close();
+$conn->Close();
+
+$rs = null;
+$conn = null;
+
+?>
+/************************************* GET ALL SOAP FUNCTIONS **************************************************************/
+ $client = new SoapClient("http://maxcavmes04.maxim-ic.internal/CamstarSupportApps/Camstar.svc?wsdl");
+ $result = $client->__call('ReleaseLot',array('lot'=>'lotnum','releaseReason'=>'lot_action','rootCause'=>'root_cause','correctiveAction'=>'corrective_action','comments'=>'rcacomments','IRACUser'=>'logged'));
+                                
+                                        
+
+print $result;
+var_dump($client->__getFunctions());
